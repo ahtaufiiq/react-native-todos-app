@@ -2,22 +2,38 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
 export default class App extends React.Component {
+  state={
+    tasks:[
+      "Wash",
+      "Clean",
+      "learn"
+    ]
+  };
+
   render() {
     return (
-      <View style={styles.container}>
-        <Text>Open up App.js to start working on your app!</Text>
-        <Text>Changes you make will automatically reload.</Text>
-        <Text>Shake your phone to open the developer menu.</Text>
+      <View justifyContent="space-around" height="100%">
+          <View flex={1} backgroundColor="pink">
+            <Text>Input</Text>
+          </View>
+          <TaskList >
+            {this.state.tasks.map((task, index) =>
+              <Task key={index} description={task}/>
+            )}
+          </TaskList>
       </View>
     );
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+const TaskList = props =>
+<View flex={3} backgroundColor="limegreen" alignItems="center">
+  {props.children}
+</View>;
+
+const Task = props =>
+<View width={300} backgroundColor="white" margin={20}>
+  <Text>
+    {props.description}
+  </Text>
+</View>;
