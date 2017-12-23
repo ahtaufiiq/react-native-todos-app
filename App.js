@@ -1,13 +1,21 @@
-import React from 'react'
-import { StyleSheet, Text, View, Button, TextInput } from 'react-native';
+import React from 'react';
+import { StyleSheet, Text, View, Button, TextInput, TouchableOpacity } from 'react-native';
 
 export default class App extends React.Component {
   state = {
-    tasks:["Wash", "Clean", "learn", "Add Tasks."]
+    tasks:[]
   };
 
   handleTextCreation = task => {
-    alert(task);
+    this.setState(state => ({
+      tasks: [task, ...state.tasks]
+    }));
+  };
+
+  handleTaskRemoval = taskId => {
+    this.setState(state => ({
+      tasks: state.tasks.filter((task,index) => index != taskId)
+    }));
   };
 
   render() {
@@ -16,7 +24,7 @@ export default class App extends React.Component {
           <TaskInput onTaskCreation={this.handleTextCreation}/>
           <TaskList >
             {this.state.tasks.map((task, index) =>
-              <Task key={index} description={task}/>
+              <Task key={index} id={index} description={task} onRemove={this.handleTaskRemoval}/>
             )}
           </TaskList>
       </View>
@@ -58,11 +66,14 @@ const TaskList = props =>
 </View>;
 
 const Task = props =>
-<View width={300} backgroundColor="#eee" margin={10} padding={10}>
-  <Text fontSize={20}>
-    {props.description}
-  </Text>
-</View>;
+<TouchableOpacity onPress={() => props.onRemove(props.id)}>
+  <View width={300} backgroundColor="#eee" margin={10} padding={10}>
+    <Text fontSize={20}>
+      {props.description}
+    </Text>
+  </View>
+</TouchableOpacity>;
+
 
 const styles = StyleSheet.create({
   inputName:{
