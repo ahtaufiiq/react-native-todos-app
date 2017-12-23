@@ -1,22 +1,34 @@
 import React from 'react';
-import { StyleSheet, Text, View, Button, TextInput, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, Button, TextInput, TouchableOpacity, AsyncStorage } from 'react-native';
 
 export default class App extends React.Component {
   state = {
     tasks:[]
   };
 
+  componentDidMount() {
+    AsyncStorage.getItem("tasks").then(tasks => {
+      if (tasks) this.setState({
+          tasks: JSON.parse(tasks)
+        });
+    });
+  }
+
   handleTextCreation = task => {
     this.setState(state => ({
       tasks: [task, ...state.tasks]
-    }));
+    }), this.persistTasks);
   };
 
   handleTaskRemoval = taskId => {
     this.setState(state => ({
       tasks: state.tasks.filter((task,index) => index != taskId)
-    }));
+    }), this.persistTasks);
   };
+
+  persistTasks = () => {
+    AsyncStorage.setItem("tasks", JSON.stringify(this.state.tasks));
+  }
 
   render() {
     return (
