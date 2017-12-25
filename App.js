@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, Button, TextInput, TouchableOpacity, AsyncStorage } from 'react-native';
+import { StyleSheet, Text, View, Button, TextInput, TouchableOpacity, AsyncStorage, ScrollView, Dimensions } from 'react-native';
 
 export default class App extends React.Component {
   state = {
@@ -31,14 +31,17 @@ export default class App extends React.Component {
   }
 
   render() {
+    let screenWidth = Dimensions.get('window').width;
     return (
       <View justifyContent="space-around" height="100%">
           <TaskInput onTaskCreation={this.handleTextCreation}/>
-          <TaskList >
+          <ScrollView>
+          <TaskList style={{width: screenWidth, height: screenWidth *2448 /3264}}>
             {this.state.tasks.map((task, index) =>
               <Task key={index} id={index} description={task} onRemove={this.handleTaskRemoval}/>
             )}
           </TaskList>
+          </ScrollView>
       </View>
     );
   }
@@ -61,7 +64,7 @@ class TaskInput extends React.Component {
 
   render() {
     return (
-    <View flex={1} backgroundColor="pink" justifyContent="center" padding={40}>
+    <View backgroundColor="pink" justifyContent="center" padding={40}>
       <TextInput style={styles.inputName}
       onChangeText={this.handleTextChange}
       // onSubmitEditing={this.handleSubmit}
