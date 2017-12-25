@@ -64,8 +64,14 @@ class TaskInput extends React.Component {
     <View flex={1} backgroundColor="pink" justifyContent="center" padding={40}>
       <TextInput style={styles.inputName}
       onChangeText={this.handleTextChange}
-      onSubmitEditing={this.handleSubmit}
+      // onSubmitEditing={this.handleSubmit}
       value={this.state.text}
+      />
+      <Button style={styles.addButton}
+        onPress={this.handleSubmit}
+        title="Add Task"
+        color="#841584"
+        accessibilityLabel="Add Task"
       />
     </View>
   );
@@ -84,12 +90,28 @@ const Task = props =>
       {props.description}
     </Text>
   </View>
-</TouchableOpacity>;
+  </TouchableOpacity>;
 
 
 const styles = StyleSheet.create({
   inputName:{
     backgroundColor: 'white',
     height: 30
-  }
+  },addButton: {
+    position: 'absolute',
+    zIndex: 11,
+    right: 20,
+    bottom: 90,
+    backgroundColor: '#E91E63',
+    width: 70,
+    height: 70,
+    borderRadius: 35,
+    alignItems: 'center',
+    justifyContent: 'center',
+    elevation: 8
+},
+addButtonText: {
+    color: '#fff',
+    fontSize: 15
+}
 });
